@@ -22,7 +22,7 @@ export class MenuController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  @ApiQuery({ name: 'Turno', enum: ShiftMenu })
+  @ApiQuery({ name: 'Shift', enum: ShiftMenu })
   @ApiResponse({ status: 201, description: 'Created - The menu has been successfully created.'})
   @ApiBadRequestResponse({ description: 'Bad Request - Only two insertions are allowed or alried created the shift!'})
   @ApiOperation({ summary: 'Create a menu for DIURNO, NOTURNO, or BOTH shifts.'})
