@@ -5,6 +5,9 @@ Para rodar este projeto, é necessário adicionar as seguintes variáveis de amb
 
 - `DATABASE_URL`: URL do MongoDB
 - `PORT`: Porta do servidor (opcional)
+- `KEY_FILENAME`: Nome do arquivo do Google Cloud Storage
+- `PROJECT_ID`: Nome do id do projeto do Google Cloud Storage
+- `BUCKET_NAME`: Nome do bucket do Google Cloud Storage
 
 ## Instalação
 
