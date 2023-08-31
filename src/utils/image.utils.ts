@@ -1,9 +1,22 @@
-import * as path from 'path';
-import * as fs from 'fs/promises';
 import * as mime from 'mime-types';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, BadGatewayException } from '@nestjs/common';
+import { Storage } from '@google-cloud/storage';
 
 export async function saveImage(image: Express.Multer.File): Promise<string> {
+  const keyFilename = process.env.KEY_FILENAME;
+  const projectId = process.env.PROJECT_ID;
+  const bucketName = process.env.BUCKET_NAME;
+
+  // Check if Google Cloud configuration is missing
+  if (!keyFilename || !projectId || !bucketName) {
+    throw new Error('Google Cloud configuration is missing.');
+  }
+  // Initialize Google Cloud Storage
+  const gc = new Storage({
+    keyFilename: keyFilename,
+    projectId: projectId,
+  });
+
   // Get the mime type of the image
   const mimeType = mime.lookup(image.originalname);
 
@@ -17,17 +30,23 @@ export async function saveImage(image: Express.Multer.File): Promise<string> {
     throw new BadRequestException('File is not an image.');
   }
 
-  const timestamp = Date.now();
   // Create a filename with timestamp and original name
+  const timestamp = Date.now();
   const filename = `${timestamp}_${image.originalname}`;
-  // Create the path to save the image
-  const imagePath = path.join('./uploads', filename);
 
-  // Verify if the destination directory exists, if not, create
-  const directory = path.dirname(imagePath);
-  await fs.mkdir(directory, { recursive: true });
+  try {
+    // Upload the image to Google Cloud Storage
+    const bucket = gc.bucket(bucketName);
+    const file = bucket.file(filename);
+    await file.save(image.buffer, {
+      contentType: mimeType,
+      public: true, // Make the file public
+    });
 
-  // Save the image in the uploads folder
-  await fs.writeFile(imagePath, image.buffer);
-  return imagePath;
+    // Return the public URL of the uploaded image
+    const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
+    return publicUrl;
+  } catch (error) {
+    throw new BadGatewayException('Failed to upload image to Google Cloud Storage.');
+  }
 }
