@@ -11,7 +11,7 @@
 
   - **Class-Validator:** Optei pelo Class-Validator para garantir que os parâmetros e os dados do corpo das requisições estejam corretos e atendam às validações necessárias. Isso ajuda a manter a integridade dos dados recebidos.
 
-  - **fs/promises:** Escolhi a biblioteca fs/promises para manipulação segura de arquivos e pastas, garantindo um processo confiável de salvamento e leitura de imagens.
+  - **Google Cloud Storage:** Escolhi o Google Cloud Storage para lidar com o armazenamento das imagens. Além disso, o uso dele facilita a busca e o acesso às imagens, tornando esse processo mais eficiente e prático.
 
   - **mime-types:** A escolha do mime-types permitiu verificar se o tipo de arquivo é uma imagem antes de processá-lo, contribuindo para a segurança e consistência dos uploads.
 
