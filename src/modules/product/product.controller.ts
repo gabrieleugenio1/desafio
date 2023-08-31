@@ -18,6 +18,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CuidPipe } from '../../pipes/cuid.pipe';
 import { ProductEntity } from './entities/product.entity';
 import {
+  ApiBadGatewayResponse,
   ApiBadRequestResponse,
   ApiBody,
   ApiConsumes,
@@ -48,6 +49,7 @@ export class ProductController {
       'Bad Request - Product exists or Price invalid or Image invalid!',
   })
   @ApiNotFoundResponse({ description: 'Not Found - Category not found!' })
+  @ApiBadGatewayResponse({description: 'Bad Gateway - Failed to upload image to Google Cloud Storage.'})
   @ApiOperation({ summary: 'Create a product.' })
   async create(
     @UploadedFile(
@@ -128,6 +130,7 @@ export class ProductController {
     description:
       'Bad Request - Invalid CUID format or Product not found or Image invalid!',
   })
+  @ApiBadGatewayResponse({description: 'Bad Gateway - Failed to upload image to Google Cloud Storage.'})
   @ApiNotFoundResponse({ description: 'Not Found - Category not found!' })
   @ApiOperation({ summary: 'Update product by id.' })
   async update(
