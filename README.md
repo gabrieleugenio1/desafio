@@ -1,4 +1,8 @@
 # Desafio
+## Requisitos
+- `MongoDB`: É preciso criar um cluster ou utilizar o site MongoDB Atlas
+- `NodeJS`: Foi utilizado o node v20.10.0
+
 ## Variáveis de Ambiente
 
 Para rodar este projeto, é necessário adicionar as seguintes variáveis de ambiente no seu `.env` ou renomear o arquivo `.env.example` para `.env` e configurar as variáveis de acordo.
