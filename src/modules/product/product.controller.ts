@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Post,
-  Put,
+  Patch,
   Delete,
   Body,
   Param,
@@ -117,7 +117,7 @@ export class ProductController {
     return await this.productService.findByIdWithCategory(id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @UsePipes(ValidationPipe)
   @UseInterceptors(FileInterceptor('image'))
   @ApiConsumes('multipart/form-data')
